@@ -3,24 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Srijan Shorthand Institute - Practice & Test Portal</title>
+    <title>Srijan Shorthand Institute</title>
     <style>
-        :root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --warning: #ffc107; --bg: #f8f9fa; }
+        :root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --bg: #f8f9fa; }
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; }
-        .navbar { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .navbar { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; }
         .container { max-width: 700px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); box-sizing: border-box; }
         label { font-weight: 600; display: block; margin-bottom: 8px; color: #495057; }
-        select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 6px; background-color: white; }
+        select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 6px; }
         .mode-selection { display: flex; gap: 12px; margin-bottom: 20px; }
-        .mode-btn { flex: 1; padding: 12px; font-size: 16px; border: 2px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .mode-btn { flex: 1; padding: 12px; font-size: 16px; border: 2px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: bold; }
         .mode-btn.active { background: var(--primary); color: white; }
         .audio-card { background: #f1f3f5; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid var(--primary); text-align: center; }
         audio { width: 100%; margin-top: 10px; }
-        .exercise-box { background: #e9ecef; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 5px solid #6c757d; font-size: 16px; line-height: 1.6; font-weight: 500; word-break: break-word; max-height: 200px; overflow-y: auto; }
-        textarea { width: 100%; height: 200px; font-size: 16px; padding: 12px; border: 2px solid #ced4da; border-radius: 6px; box-sizing: border-box; resize: none; margin-bottom: 15px; line-height: 1.6; background-color: white; }
-        textarea:focus { border-color: var(--primary); outline: none; }
-        button.action-btn { width: 100%; padding: 15px; font-size: 18px; background-color: var(--success); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        #timer { font-size: 28px; font-weight: bold; color: var(--danger); text-align: center; margin: 15px 0; background: #fff5f5; padding: 10px; border-radius: 6px; border: 1px solid #ffa8a8; display: none; }
+        .exercise-box { background: #e9ecef; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 5px solid #6c757d; font-size: 16px; font-weight: 500; }
+        textarea { width: 100%; height: 200px; font-size: 16px; padding: 12px; border: 2px solid #ced4da; border-radius: 6px; box-sizing: border-box; resize: none; margin-bottom: 15px; background-color: white; }
+        button.action-btn { width: 100%; padding: 15px; font-size: 18px; background-color: var(--success); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        #timer { font-size: 28px; font-weight: bold; color: var(--danger); text-align: center; margin: 15px 0; background: #fff5f5; padding: 10px; border-radius: 6px; display: none; }
         #result { margin-top: 25px; padding: 20px; background: #fff; border: 2px solid var(--success); display: none; border-radius: 8px; }
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
         .stat-item { background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #e9ecef; text-align: center; }
@@ -30,89 +29,80 @@
         .correct-word { color: var(--success); font-weight: bold; }
         .missing-word { color: #868e96; font-weight: bold; font-style: italic; }
         #diffView { background: #fafafa; padding: 15px; border: 1px solid #dee2e6; border-radius: 6px; margin-top: 15px; max-height: 200px; overflow-y: auto; line-height: 1.8; }
-        .footer-credits { text-align: center; margin-top: 30px; margin-bottom: 10px; color: #6c757d; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; border-top: 1px dashed #dee2e6; padding-top: 15px; }
+        .footer-credits { text-align: center; margin-top: 30px; padding-top: 15px; color: #6c757d; font-size: 14px; font-weight: 600; border-top: 1px dashed #dee2e6; }
     </style>
 </head>
 <body>
 
-<!-- Custom Navbar Header -->
 <div class="navbar">Srijan Shorthand Institute</div>
 
 <div class="container">
-    <!-- Exercise Selector -->
     <label for="exerciseSelect">📜 Select Shorthand Exercise:</label>
     <select id="exerciseSelect" onchange="changeExercise()">
-        <option value="ex1">Kailash Chandra - Vol 1 (80 WPM)</option>
-        <option value="ex2">G.D. Bist - Legal Dictation (100 WPM)</option>
-        <option value="ex3">Progressive Unseen Matter (85 WPM)</option>
+        <option value="ex1">Kailash Chandra - Vol 1</option>
+        <option value="ex2">G.D. Bist - Legal Dictation</option>
+        <option value="ex3">Progressive Unseen Matter</option>
     </select>
 
-    <!-- Mode Selection -->
     <div class="mode-selection">
         <button id="btnPractice" class="mode-btn active" onclick="switchMode('practice')">Practice Mode</button>
         <button id="btnTest" class="mode-btn" onclick="switchMode('test')">Exam Test Mode</button>
     </div>
 
-    <!-- Built-in Audio Player -->
     <div class="audio-card">
-        <strong>🔊 Audio Player: Listen and write shorthand outlines in your notebook</strong>
+        <strong>🔊 Audio Player: Listen and write outlines</strong>
         <audio id="audioPlayer" controls src="https://soundhelix.com"></audio>
     </div>
 
-    <!-- Exercise Text Display (Visible in Practice Mode) -->
     <div id="exerciseWrapper">
         <label>📖 Transcription Text Cover:</label>
         <div id="exerciseText" class="exercise-box">Loading...</div>
     </div>
 
-    <!-- Countdown Timer -->
     <div id="timer">⏱️ Time Remaining: 05:00</div>
     
-    <!-- Student Keyboard Input Box -->
-    <label for="studentInput">⌨️ Type your transcription below (OTG Keyboard Supported):</label>
+    <label for="studentInput">⌨️ Type your transcription below:</label>
     <textarea id="studentInput" placeholder="Start typing here..."></textarea>
     
     <button id="actionBtn" class="action-btn" onclick="handleSubmit()">Check Accuracy Analysis</button>
 
-    <!-- Evaluation Result Card -->
     <div id="result">
         <h3>📊 Comprehensive Evaluation Report</h3>
         <div class="stats-grid">
             <div class="stat-item">Total Master Words<span id="masterCount" style="color:var(--primary);">0</span></div>
             <div class="stat-item">Words Typed<span id="typedCount" style="color:#6c757d;">0</span></div>
-            <div class="stat-item" style="border-left: 4px solid var(--danger);">Full Mistakes<span id="fullErrors" style="color:var(--danger);">0</span></div>
-            <div class="stat-item" style="border-left: 4px solid #fd7e14;">Half Mistakes<span id="halfErrors" style="color:#fd7e14;">0</span></div>
+            <div class="stat-item">Full Mistakes<span id="fullErrors" style="color:var(--danger);">0</span></div>
+            <div class="stat-item">Half Mistakes<span id="halfErrors" style="color:#fd7e14;">0</span></div>
         </div>
         <div class="stat-item" style="background: #e6f4ea; border-color: #badbcc; margin-bottom:15px;">
             <strong>Net Accuracy Percentage</strong><span id="accuracy" style="color:var(--success); font-size:26px;">0%</span>
         </div>
-        
-        <h4>🔍 Word-by-Word Analysis (Correction Guide):</h4>
+        <h4>🔍 Word-by-Word Analysis:</h4>
         <div id="diffView"></div>
     </div>
 
-    <!-- Personalized Creator Footnote -->
     <div class="footer-credits">
         💻 Designed & Developed by sauravSISU
     </div>
 </div>
 
 <script>
-    // =========================================================================
-    // SIR: MASTER COPY DATA CENTER (Working Links Attached)
-    // =========================================================================
     const database = {
-        ex1: {text: "The quick brown fox jumps over the lazy dog. Shorthand requires regular speed practice.",
-            audio: "https://soundhelix.com"},
-        ex2: {text: "Honorable members of the High Court, the learned counsel presented the legal evidence format.",
-            audio: "https://soundhelix.com"},
-        ex3: {text: "This is a daily progressive unseen exercise designed to challenge upcoming exam aspirants.",
-            audio: "https://soundhelix.com"}
+        ex1: {
+            text: "The quick brown fox jumps over the lazy dog",
+            audio: "https://soundhelix.com"
+        },
+        ex2: {
+            text: "Honorable members of the High Court the learned counsel presented the legal evidence format",
+            audio: "https://soundhelix.com"
+        },
+        ex3: {
+            text: "This is a daily progressive unseen exercise designed to challenge upcoming exam aspirants",
+            audio: "https://soundhelix.com"
+        }
     };
     
     let testDurationSeconds = 300; 
-    // =========================================================================
-
     let currentExercise = database.ex1;
     let currentMode = 'practice';
     let timeLeft = testDurationSeconds;
@@ -159,6 +149,41 @@
             document.getElementById('btnTest').classList.add('active');
             exerciseWrapper.style.display = 'none';
             timerDisplay.style.display = 'block';
-            actionBtn.innerText = "🚨 Start Exam Test & Timer";
+            actionBtn.innerText = "Start Exam Test & Timer";
             actionBtn.style.backgroundColor = "var(--primary)";
             studentInput.disabled = true;
+            studentInput.placeholder = "Click the blue button below to start your official test...";
+            updateTimerDisplay();
+        }
+    }
+
+    function updateTimerDisplay() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timerDisplay.innerText = "⏱️ Time Remaining: " + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+    }
+
+    function handleSubmit() {
+        if (currentMode === 'practice') {
+            calculateStenoResults();
+        } else {
+            if (actionBtn.innerText.includes("Start Exam Test")) {
+                actionBtn.innerText = "Submit Exam Paper";
+                actionBtn.style.backgroundColor = "var(--danger)";
+                studentInput.disabled = false;
+                studentInput.focus();
+                
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    updateTimerDisplay();
+                    if (timeLeft <= 0) calculateStenoResults();
+                }, 1000);
+            } else {
+                calculateStenoResults();
+            }
+        }
+    }
+
+    function calculateStenoResults() {
+        clearInterval(timerInterval);
+        studentInput.disabled = true;
