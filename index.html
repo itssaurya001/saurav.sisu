@@ -69,10 +69,10 @@
     <div id="result">
         <h3>📊 Comprehensive Evaluation Report</h3>
         <div class="stats-grid">
-            <div class="stat-item">Total Master Words<span id="masterCount" style="color:var(--primary);">0</span></div>
-            <div class="stat-item">Words Typed<span id="typedCount" style="color:#6c757d;">0</span></div>
-            <div class="stat-item">Full Mistakes<span id="fullErrors" style="color:var(--danger);">0</span></div>
-            <div class="stat-item">Half Mistakes<span id="halfErrors" style="color:#fd7e14;">0</span></div>
+            <div class="stat-item">Total Master Words<span id="masterCount">0</span></div>
+            <div class="stat-item">Words Typed<span id="typedCount">0</span></div>
+            <div class="stat-item">Full Mistakes<span id="fullErrors">0</span></div>
+            <div class="stat-item">Half Mistakes<span id="halfErrors">0</span></div>
         </div>
         <div class="stat-item" style="background: #e6f4ea; border-color: #badbcc; margin-bottom:15px;">
             <strong>Net Accuracy Percentage</strong><span id="accuracy" style="color:var(--success); font-size:26px;">0%</span>
@@ -117,12 +117,6 @@
     const resultDiv = document.getElementById('result');
     const diffView = document.getElementById('diffView');
     const audioPlayer = document.getElementById('audioPlayer');
-
-    window.onload = function() {
-        exerciseTextDiv.innerText = currentExercise.text;
-        audioPlayer.src = currentExercise.audio;
-        switchMode('practice');
-    };
 
     function changeExercise() {
         currentExercise = database[exerciseSelect.value];
@@ -187,3 +181,10 @@
     function calculateStenoResults() {
         clearInterval(timerInterval);
         
+        const masterClean = currentExercise.text.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        const typedClean = studentInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+        
+        let fullErrors = 0;
+        let halfErrors = 0;
+        let htmlAnalysis = "";
+
