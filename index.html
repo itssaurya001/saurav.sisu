@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steno Exam & Practice Portal</title>
+    <title>Srijan Shorthand Institute - Practice & Test Portal</title>
     <style>
         :root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --warning: #ffc107; --bg: #f8f9fa; }
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; }
         .navbar { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         .container { max-width: 700px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); box-sizing: border-box; }
         label { font-weight: 600; display: block; margin-bottom: 8px; color: #495057; }
-        select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid #ced4da; border-radius: 6px; background-color: white; }
+        select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 6px; background-color: white; }
         .mode-selection { display: flex; gap: 12px; margin-bottom: 20px; }
         .mode-btn { flex: 1; padding: 12px; font-size: 16px; border: 2px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .mode-btn.active { background: var(--primary); color: white; }
         .audio-card { background: #f1f3f5; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid var(--primary); text-align: center; }
         audio { width: 100%; margin-top: 10px; }
         .exercise-box { background: #e9ecef; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 5px solid #6c757d; font-size: 16px; line-height: 1.6; font-weight: 500; word-break: break-word; max-height: 200px; overflow-y: auto; }
-        textarea { width: 100%; height: 200px; font-size: 16px; padding: 12px; border: 2px solid #ced4da; border-radius: 6px; box-sizing: border-box; resize: none; margin-bottom: 15px; line-height: 1.6; }
+        textarea { width: 100%; height: 200px; font-size: 16px; padding: 12px; border: 2px solid #ced4da; border-radius: 6px; box-sizing: border-box; resize: none; margin-bottom: 15px; line-height: 1.6; background-color: white; }
         textarea:focus { border-color: var(--primary); outline: none; }
         button.action-btn { width: 100%; padding: 15px; font-size: 18px; background-color: var(--success); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: 0.2s; }
-        #timer { font-size: 28px; font-weight: bold; color: var(--danger); text-align: center; margin: 15px 0; background: #fff5f5; padding: 10px; border-radius: 6px; border: 1px solid #ffa8a8; }
+        #timer { font-size: 28px; font-weight: bold; color: var(--danger); text-align: center; margin: 15px 0; background: #fff5f5; padding: 10px; border-radius: 6px; border: 1px solid #ffa8a8; display: none; }
         #result { margin-top: 25px; padding: 20px; background: #fff; border: 2px solid var(--success); display: none; border-radius: 8px; }
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
         .stat-item { background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #e9ecef; text-align: center; }
@@ -30,11 +30,13 @@
         .correct-word { color: var(--success); font-weight: bold; }
         .missing-word { color: #868e96; font-weight: bold; font-style: italic; }
         #diffView { background: #fafafa; padding: 15px; border: 1px solid #dee2e6; border-radius: 6px; margin-top: 15px; max-height: 200px; overflow-y: auto; line-height: 1.8; }
+        .footer-credits { text-align: center; margin-top: 30px; margin-bottom: 10px; color: #6c757d; font-size: 14px; font-weight: 600; letter-spacing: 0.5px; border-top: 1px dashed #dee2e6; padding-top: 15px; }
     </style>
 </head>
 <body>
 
-<div class="navbar">Steno Academy Practice & Testing Portal</div>
+<!-- Custom Navbar Header -->
+<div class="navbar">Srijan Shorthand Institute</div>
 
 <div class="container">
     <!-- Exercise Selector -->
@@ -57,22 +59,22 @@
         <audio id="audioPlayer" controls src="https://soundhelix.com"></audio>
     </div>
 
-    <!-- Exercise Text Display (Hidden in Test Mode) -->
+    <!-- Exercise Text Display (Visible in Practice Mode) -->
     <div id="exerciseWrapper">
         <label>📖 Transcription Text Cover:</label>
         <div id="exerciseText" class="exercise-box">Loading...</div>
     </div>
 
     <!-- Countdown Timer -->
-    <div id="timer" style="display: none;">Time Left: 05:00</div>
+    <div id="timer">⏱️ Time Remaining: 05:00</div>
     
     <!-- Student Keyboard Input Box -->
     <label for="studentInput">⌨️ Type your transcription below (OTG Keyboard Supported):</label>
-    <textarea id="studentInput" placeholder="Click the button below to unlock this typing area..."></textarea>
+    <textarea id="studentInput" placeholder="Start typing here..."></textarea>
     
     <button id="actionBtn" class="action-btn" onclick="handleSubmit()">Check Accuracy Analysis</button>
 
-    <!-- Stenoshala / Likho Style Analytics Result Card -->
+    <!-- Evaluation Result Card -->
     <div id="result">
         <h3>📊 Comprehensive Evaluation Report</h3>
         <div class="stats-grid">
@@ -85,32 +87,33 @@
             <strong>Net Accuracy Percentage</strong><span id="accuracy" style="color:var(--success); font-size:26px;">0%</span>
         </div>
         
-        <h4>🔍 Word-by-Word Analysis (Hover to view correction):</h4>
+        <h4>🔍 Word-by-Word Analysis (Correction Guide):</h4>
         <div id="diffView"></div>
+    </div>
+
+    <!-- Personalized Creator Footnote -->
+    <div class="footer-credits">
+        💻 Designed & Developed by sauravSISU
     </div>
 </div>
 
 <script>
-    // =========================================================================
-    // SIR: DATA CENTER - MANAGE TEXT AND AUDIO LINKS HERE
-    // =========================================================================
     const database = {
         ex1: {
             text: "The quick brown fox jumps over the lazy dog. Shorthand requires regular speed practice.",
-            audio: "https://soundhelix.com" // Replace with your KC Chandra mp3 link
+            audio: "https://soundhelix.com"
         },
         ex2: {
             text: "Honorable members of the High Court, the learned counsel presented the legal evidence format.",
-            audio: "https://soundhelix.com" // Replace with your GD Bist mp3 link
+            audio: "https://soundhelix.com"
         },
         ex3: {
             text: "This is a daily progressive unseen exercise designed to challenge upcoming exam aspirants.",
-            audio: "https://soundhelix.com" // Replace with your Unseen mp3 link
+            audio: "https://soundhelix.com"
         }
     };
     
-    let testDurationSeconds = 300; // 5 Minutes
-    // =========================================================================
+    let testDurationSeconds = 300; 
 
     let currentExercise = database.ex1;
     let currentMode = 'practice';
@@ -127,7 +130,11 @@
     const diffView = document.getElementById('diffView');
     const audioPlayer = document.getElementById('audioPlayer');
 
-    exerciseTextDiv.innerText = currentExercise.text;
+    window.onload = function() {
+        exerciseTextDiv.innerText = currentExercise.text;
+        audioPlayer.src = currentExercise.audio;
+        switchMode('practice');
+    };
 
     function changeExercise() {
         currentExercise = database[exerciseSelect.value];
@@ -149,6 +156,7 @@
             actionBtn.innerText = "Check Accuracy Analysis";
             actionBtn.style.backgroundColor = "var(--success)";
             studentInput.disabled = false;
+            studentInput.placeholder = "Start typing here for practice...";
         } else {
             document.getElementById('btnTest').classList.add('active');
             exerciseWrapper.style.display = 'none';
@@ -156,6 +164,7 @@
             actionBtn.innerText = "🚨 Start Exam Test & Timer";
             actionBtn.style.backgroundColor = "var(--primary)";
             studentInput.disabled = true;
+            studentInput.placeholder = "Click the blue button below to start your official test...";
             updateTimerDisplay();
         }
     }
@@ -163,10 +172,3 @@
     function updateTimerDisplay() {
         let minutes = Math.floor(timeLeft / 60);
         let seconds = timeLeft % 60;
-        timerDisplay.innerText = `⏱️ Time Remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-
-    function handleSubmit() {
-        if (currentMode === 'practice') {
-            calculateStenoResults();
-        } else {
