@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shorthand Speed Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; padding: 10px; background-color: #f4f4f9; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        h2 { text-align: center; color: #333; }
+        textarea { width: 100%; height: 150px; font-size: 16px; padding: 10px; border: 2px solid #ccc; border-radius: 4px; box-sizing: border-box; resize: none; }
+        button { width: 100%; padding: 12px; font-size: 16px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; margin-top: 10px; font-weight: bold; }
+        #timer { font-size: 24px; font-weight: bold; color: #dc3545; text-align: center; margin: 15px 0; }
+        #result { margin-top: 20px; padding: 15px; background: #e9ecef; border-left: 5px solid #28a745; display: none; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Shorthand Typing Test</h2>
+    <div id="timer">Time Left: 05:00</div>
+    <textarea id="studentInput" placeholder="Click 'Start Test' and start typing with your OTG keyboard here..." disabled></textarea>
+    <button id="startBtn" onclick="startTest()">Start Test & Timer</button>
+    <button id="submitBtn" onclick="endTest()" style="display:none; background-color: #28a745;">Submit Test</button>
+    
+    <div id="result">
+        <h3>Test Result</h3>
+        <p><strong>Total Master Words:</strong> <span id="masterCount">0</span></p>
+        <p><strong>Total Typed Words:</strong> <span id="typedCount">0</span></p>
+        <p><strong>Total Errors:</strong> <span id="errorCount">0</span></p>
+        <p><strong>Accuracy:</strong> <span id="accuracy">0%</span></p>
+    </div>
+</div>
+
+<script>
+    // --- SIR: CHANGE YOUR EXERCISE WORDS INSIDE THE QUOTES BELOW ---
+    const masterText = "The quick brown fox jumps over the lazy dog"; 
+    
+    // --- SIR: CHANGE TIMER DURATION HERE (300 seconds = 5 minutes) ---
+    let timeLeft = 300; 
+
+    let timerInterval;
+    const timerDisplay = document.getElementById('timer');
+    const studentInput = document.getElementById('studentInput');
+    const startBtn = document.getElementById('startBtn');
+    const submitBtn = document.getElementById('submitBtn');
+    const resultDiv = document.getElementById('result');
+
+    function updateTimerDisplay() {
+        let minutes = Math.floor(timeLeft / 60);
+        let seconds = timeLeft % 60;
+        timerDisplay.innerText = `Time Left: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startTest() {
+        startBtn.style.display = 'none';
+        submitBtn.style.display = 'block';
+        studentInput.disabled = false;
+        studentInput.focus();
+        
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                endTest();
+            }
+        }, 1000);
+    }
+
+    function endTest() {
+        clearInterval(timerInterval);
+        studentInput.disabled = true;
+        submitBtn.style.display = 'none';
+        
+        const cleanText = (str) => str.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"").trim().split(/\s+/);
+        const masterWords = cleanText(masterText).filter(w => w !== "");
+        const typedWords = cleanText(studentInput.value).filter(w => w !== "");
+        
+        let errors = 0;
+        masterWords.forEach((word, index) => {
+            if (typedWords[index] !== word) {
+                errors++;
+            }
+        });
+        
+        if (typedWords.length > masterWords.length) {
+            errors += (typedWords.length - masterWords.length);
+        }
+
+        let accuracyPercentage = ((masterWords.length - errors) / masterWords.length) * 100;
+        if (accuracyPercentage < 0) accuracyPercentage = 0;
+
+        document.getElementById('masterCount').innerText = masterWords.length;
+        document.getElementById('typedCount').innerText = typedWords.length;
+        document.getElementById('errorCount').innerText = errors;
+        document.getElementById('accuracy').innerText = accuracyPercentage.toFixed(2) + "%";
+        resultDiv.style.display = "block";
+    }
+    updateTimerDisplay();
+</script>
+
+</body>
+</html>
