@@ -98,6 +98,9 @@
 </div>
 
 <script>
+    // =========================================================================
+    // SIR: MASTER COPY DATA CENTER (Working Links Attached)
+    // =========================================================================
     const database = {
         ex1: {
             text: "The quick brown fox jumps over the lazy dog. Shorthand requires regular speed practice.",
@@ -114,6 +117,7 @@
     };
     
     let testDurationSeconds = 300; 
+    // =========================================================================
 
     let currentExercise = database.ex1;
     let currentMode = 'practice';
@@ -164,11 +168,3 @@
             actionBtn.innerText = "🚨 Start Exam Test & Timer";
             actionBtn.style.backgroundColor = "var(--primary)";
             studentInput.disabled = true;
-            studentInput.placeholder = "Click the blue button below to start your official test...";
-            updateTimerDisplay();
-        }
-    }
-
-    function updateTimerDisplay() {
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
