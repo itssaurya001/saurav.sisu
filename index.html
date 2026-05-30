@@ -7,11 +7,10 @@
     <style>
         :root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --bg: #f8f9fa; }
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; }
-        .status-banner { background: #ffc107; color: #000; text-align: center; padding: 8px; font-weight: bold; font-size: 14px; }
         .navbar { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; }
         .container { max-width: 700px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); box-sizing: border-box; }
         label { font-weight: 600; display: block; margin-bottom: 8px; color: #495057; }
-        select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 6px; }
+        select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 6px; background-color: white; }
         .mode-selection { display: flex; gap: 12px; margin-bottom: 20px; }
         .mode-btn { flex: 1; padding: 12px; font-size: 16px; border: 2px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: bold; }
         .mode-btn.active { background: var(--primary); color: white; }
@@ -34,22 +33,19 @@
 </head>
 <body>
 
-<!-- High Visibility Diagnostic Banner -->
-<div class="status-banner">🟢 SUCCESS: NEW CODE IS NOW ACTIVE</div>
-
 <div class="navbar">Srijan Shorthand Institute</div>
 
 <div class="container">
     <label for="exerciseSelect">📜 Select Shorthand Exercise:</label>
-    <select id="exerciseSelect" onchange="changeExercise()">
+    <select id="exerciseSelect">
         <option value="ex1">Kailash Chandra - Vol 1</option>
         <option value="ex2">G.D. Bist - Legal Dictation</option>
         <option value="ex3">Progressive Unseen Matter</option>
     </select>
 
     <div class="mode-selection">
-        <button id="btnPractice" class="mode-btn active" onclick="switchMode('practice')">Practice Mode</button>
-        <button id="btnTest" class="mode-btn" onclick="switchMode('test')">Exam Test Mode</button>
+        <button id="btnPractice" class="mode-btn active">Practice Mode</button>
+        <button id="btnTest" class="mode-btn">Exam Test Mode</button>
     </div>
 
     <div class="audio-card">
@@ -59,7 +55,6 @@
 
     <div id="exerciseWrapper">
         <label>📖 Transcription Text Cover:</label>
-        <!-- Hardcoded text to destroy the "Loading..." bug completely -->
         <div id="exerciseText" class="exercise-box">The quick brown fox jumps over the lazy dog</div>
     </div>
 
@@ -68,7 +63,7 @@
     <label for="studentInput">⌨️ Type your transcription below:</label>
     <textarea id="studentInput" placeholder="Start typing here..."></textarea>
     
-    <button id="actionBtn" class="action-btn" onclick="handleSubmit()">Check Accuracy Analysis</button>
+    <button id="actionBtn" class="action-btn">Check Accuracy Analysis</button>
 
     <div id="result">
         <h3>📊 Comprehensive Evaluation Report</h3>
@@ -91,97 +86,93 @@
 </div>
 
 <script>
-    const database = {
-        ex1: {
-            text: "The quick brown fox jumps over the lazy dog",
-            audio: "https://soundhelix.com"
-        },
-        ex2: {
-            text: "Honorable members of the High Court the learned counsel presented the legal evidence format",
-            audio: "https://soundhelix.com"
-        },
-        ex3: {
-            text: "This is a daily progressive unseen exercise designed to challenge upcoming exam aspirants",
-            audio: "https://soundhelix.com"
-        }
-    };
-    
-    let testDurationSeconds = 300; 
-    let currentExercise = database.ex1;
-    let currentMode = 'practice';
-    let timeLeft = testDurationSeconds;
-    let timerInterval;
-
-    const exerciseSelect = document.getElementById('exerciseSelect');
-    const exerciseTextDiv = document.getElementById('exerciseText');
-    const exerciseWrapper = document.getElementById('exerciseWrapper');
-    const studentInput = document.getElementById('studentInput');
-    const timerDisplay = document.getElementById('timer');
-    const actionBtn = document.getElementById('actionBtn');
-    const resultDiv = document.getElementById('result');
-    const diffView = document.getElementById('diffView');
-    const audioPlayer = document.getElementById('audioPlayer');
-
-    function changeExercise() {
-        currentExercise = database[exerciseSelect.value];
-        exerciseTextDiv.innerText = currentExercise.text;
-        audioPlayer.src = currentExercise.audio;
-        resetPortal();
-    }
-
-    function switchMode(mode) {
-        currentMode = mode;
-        resetPortal();
-        document.getElementById('btnPractice').classList.remove('active');
-        document.getElementById('btnTest').classList.remove('active');
+    document.addEventListener("DOMContentLoaded", function() {
         
-        if (mode === 'practice') {
-            document.getElementById('btnPractice').classList.add('active');
-            exerciseWrapper.style.display = 'block';
-            timerDisplay.style.display = 'none';
-            actionBtn.innerText = "Check Accuracy Analysis";
-            actionBtn.style.backgroundColor = "var(--success)";
-            studentInput.disabled = false;
-            studentInput.placeholder = "Start typing here for practice...";
-        } else {
-            document.getElementById('btnTest').classList.add('active');
-            exerciseWrapper.style.display = 'none';
-            timerDisplay.style.display = 'block';
-            actionBtn.innerText = "Start Exam Test & Timer";
-            actionBtn.style.backgroundColor = "var(--primary)";
-            studentInput.disabled = true;
-            studentInput.placeholder = "Click the blue button below to start your official test...";
-            updateTimerDisplay();
+        const database = {
+            ex1: {
+                text: "The quick brown fox jumps over the lazy dog",
+                audio: "https://soundhelix.com"
+            },
+            ex2: {
+                text: "Honorable members of the High Court the learned counsel presented the legal evidence format",
+                audio: "https://soundhelix.com"
+            },
+            ex3: {
+                text: "This is a daily progressive unseen exercise designed to challenge upcoming exam aspirants",
+                audio: "https://soundhelix.com"
+            }
+        };
+        
+        let testDurationSeconds = 300; 
+        let currentExercise = database.ex1;
+        let currentMode = 'practice';
+        let timeLeft = testDurationSeconds;
+        let timerInterval;
+
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const exerciseTextDiv = document.getElementById('exerciseText');
+        const exerciseWrapper = document.getElementById('exerciseWrapper');
+        const studentInput = document.getElementById('studentInput');
+        const timerDisplay = document.getElementById('timer');
+        const actionBtn = document.getElementById('actionBtn');
+        const resultDiv = document.getElementById('result');
+        const diffView = document.getElementById('diffView');
+        const audioPlayer = document.getElementById('audioPlayer');
+
+        exerciseSelect.addEventListener('change', changeExercise);
+        actionBtn.addEventListener('click', handleSubmit);
+        document.getElementById('btnPractice').addEventListener('click', function() { switchMode('practice'); });
+        document.getElementById('btnTest').addEventListener('click', function() { switchMode('test'); });
+
+        function changeExercise() {
+            currentExercise = database[exerciseSelect.value];
+            exerciseTextDiv.innerText = currentExercise.text;
+            audioPlayer.src = currentExercise.audio;
+            resetPortal();
         }
-    }
 
-    function updateTimerDisplay() {
-        let minutes = Math.floor(timeLeft / 60);
-        let seconds = timeLeft % 60;
-        timerDisplay.innerText = "⏱️ Time Remaining: " + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
-    }
-
-    function handleSubmit() {
-        if (currentMode === 'practice') {
-            calculateStenoResults();
-        } else {
-            if (actionBtn.innerText.includes("Start Exam Test")) {
-                actionBtn.innerText = "Submit Exam Paper";
-                actionBtn.style.backgroundColor = "var(--danger)";
+        function switchMode(mode) {
+            currentMode = mode;
+            resetPortal();
+            document.getElementById('btnPractice').classList.remove('active');
+            document.getElementById('btnTest').classList.remove('active');
+            
+            if (mode === 'practice') {
+                document.getElementById('btnPractice').classList.add('active');
+                exerciseWrapper.style.display = 'block';
+                timerDisplay.style.display = 'none';
+                actionBtn.innerText = "Check Accuracy Analysis";
+                actionBtn.style.backgroundColor = "var(--success)";
                 studentInput.disabled = false;
-                studentInput.focus();
-                
-                timerInterval = setInterval(() => {
-                    timeLeft--;
-                    updateTimerDisplay();
-                    if (timeLeft <= 0) calculateStenoResults();
-                }, 1000);
+                studentInput.placeholder = "Start typing here for practice...";
             } else {
-                calculateStenoResults();
+                document.getElementById('btnTest').classList.add('active');
+                exerciseWrapper.style.display = 'none';
+                timerDisplay.style.display = 'block';
+                actionBtn.innerText = "Start Exam Test & Timer";
+                actionBtn.style.backgroundColor = "var(--primary)";
+                studentInput.disabled = true;
+                studentInput.placeholder = "Click the blue button below to start your official test...";
+                updateTimerDisplay();
             }
         }
-    }
 
-    function calculateStenoResults() {
-        clearInterval(timerInterval);
-        
+        function updateTimerDisplay() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerDisplay.innerText = "⏱️ Time Remaining: " + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+        }
+
+        function handleSubmit() {
+            if (currentMode === 'practice') {
+                calculateStenoResults();
+            } else {
+                if (actionBtn.innerText.includes("Start Exam Test")) {
+                    actionBtn.innerText = "Submit Exam Paper";
+                    actionBtn.style.backgroundColor = "var(--danger)";
+                    studentInput.disabled = false;
+                    studentInput.focus();
+                    
+                    timerInterval = setInterval(() => {
+                        timeLeft--;
+                        updateTimerDisplay();
