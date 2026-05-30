@@ -1,3 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Srijan Shorthand Institute</title>
+    <style>
+        :root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; }
+        .navbar { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; }
+        .container { max-width: 700px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); box-sizing: border-box; }
+        label { font-weight: 600; display: block; margin-bottom: 8px; color: #495057; }
+        select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 6px; background-color: white; }
+        .mode-selection { display: flex; gap: 12px; margin-bottom: 20px; }
+        .mode-btn { flex: 1; padding: 12px; font-size: 16px; border: 2px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: bold; }
+        .mode-btn.active { background: var(--primary); color: white; }
+        .audio-card { background: #f1f3f5; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid var(--primary); text-align: center; }
+        audio { width: 100%; margin-top: 10px; }
+        .exercise-box { background: #e9ecef; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 5px solid #6c757d; font-size: 16px; font-weight: 500; }
+        textarea { width: 100%; height: 200px; font-size: 16px; padding: 12px; border: 2px solid #ced4da; border-radius: 6px; box-sizing: border-box; resize: none; margin-bottom: 15px; background-color: white; }
+        button.action-btn { width: 100%; padding: 15px; font-size: 18px; background-color: var(--success); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        #timer { font-size: 28px; font-weight: bold; color: var(--danger); text-align: center; margin: 15px 0; background: #fff5f5; padding: 10px; border-radius: 6px; display: none; }
+        #result { margin-top: 25px; padding: 20px; background: #fff; border: 2px solid var(--success); display: none; border-radius: 8px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
+        .stat-item { background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #e9ecef; text-align: center; }
+        .stat-item span { display: block; font-size: 20px; font-weight: bold; margin-top: 5px; }
+        .error-word { color: var(--danger); text-decoration: line-through; font-weight: bold; }
+        .correct-word { color: var(--success); font-weight: bold; }
+        .missing-word { color: #868e96; font-weight: bold; font-style: italic; }
+        #diffView { background: #fafafa; padding: 15px; border: 1px solid #dee2e6; border-radius: 6px; margin-top: 15px; max-height: 200px; overflow-y: auto; line-height: 1.8; }
+        .footer-credits { text-align: center; margin-top: 30px; padding-top: 15px; color: #6c757d; font-size: 14px; font-weight: 600; border-top: 1px dashed #dee2e6; }
+    </style>
+</head>
+<body>
+
 <div class="navbar">Srijan Shorthand Institute</div>
 
 <div class="container">
@@ -39,7 +74,7 @@
             <div class="stat-item">Half Mistakes<span id="halfErrors">0</span></div>
         </div>
         <div class="stat-item" style="background: #e6f4ea; border-color: #badbcc; margin-bottom:15px;">
-            <strong>Net Accuracy Percentage</strong><span id="accuracy" style="color:#28a745; font-size:26px;">0%</span>
+            <strong>Net Accuracy Percentage</strong><span id="accuracy" style="color:var(--success); font-size:26px;">0%</span>
         </div>
         <h4>🔍 Word-by-Word Analysis:</h4>
         <div id="diffView"></div>
@@ -49,197 +84,95 @@
         💻 Designed & Developed by sauravSISU
     </div>
 </div>
-:root { --primary: #0056b3; --success: #28a745; --danger: #dc3545; --bg: #f8f9fa; }
-body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: var(--bg); color: #333; }
-.navbar { background: var(--primary); color: white; padding: 15px; text-align: center; font-size: 22px; font-weight: bold; }
-.container { max-width: 700px; margin: 20px auto; background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); box-sizing: border-box; }
-label { font-weight: 600; display: block; margin-bottom: 8px; color: #495057; }
-select { width: 100%; padding: 12px; font-size: 16px; margin-bottom: 20px; border: 2px solid var(--primary); border-radius: 6px; }
-.mode-selection { display: flex; gap: 12px; margin-bottom: 20px; }
-.mode-btn { flex: 1; padding: 12px; font-size: 16px; border: 2px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: bold; }
-.mode-btn.active { background: var(--primary); color: white; }
-.audio-card { background: #f1f3f5; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 5px solid var(--primary); text-align: center; }
-audio { width: 100%; margin-top: 10px; }
-.exercise-box { background: #e9ecef; padding: 15px; border-radius: 6px; margin-bottom: 20px; border-left: 5px solid #6c757d; font-size: 16px; font-weight: 500; }
-textarea { width: 100%; height: 200px; font-size: 16px; padding: 12px; border: 2px solid #ced4da; border-radius: 6px; box-sizing: border-box; resize: none; margin-bottom: 15px; background-color: white; }
-button.action-btn { width: 100%; padding: 15px; font-size: 18px; background-color: var(--success); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; }
-#timer { font-size: 28px; font-weight: bold; color: var(--danger); text-align: center; margin: 15px 0; background: #fff5f5; padding: 10px; border-radius: 6px; display: none; }
-#result { margin-top: 25px; padding: 20px; background: #fff; border: 2px solid var(--success); display: none; border-radius: 8px; }
-.stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 20px; }
-.stat-item { background: #f8f9fa; padding: 12px; border-radius: 6px; border: 1px solid #e9ecef; text-align: center; }
-.stat-item span { display: block; font-size: 20px; font-weight: bold; margin-top: 5px; }
-.error-word { color: var(--danger); text-decoration: line-through; font-weight: bold; }
-.correct-word { color: var(--success); font-weight: bold; }
-.missing-word { color: #868e96; font-weight: bold; font-style: italic; }
-#diffView { background: #fafafa; padding: 15px; border: 1px solid #dee2e6; border-radius: 6px; margin-top: 15px; max-height: 200px; overflow-y: auto; line-height: 1.8; }
-.footer-credits { text-align: center; margin-top: 30px; padding-top: 15px; color: #6c757d; font-size: 14px; font-weight: 600; border-top: 1px dashed #dee2e6; }
-const database = {
-    ex1: {
-        text: "The quick brown fox jumps over the lazy dog",
-        audio: "https://soundhelix.com"
-    },
-    ex2: {
-        text: "Honorable members of the High Court the learned counsel presented the legal evidence format",
-        audio: "https://soundhelix.com"
-    },
-    ex3: {
-        text: "This is a daily progressive unseen exercise designed to challenge upcoming exam aspirants",
-        audio: "https://soundhelix.com"
-    }
-};
 
-let testDurationSeconds = 300; 
-let currentExercise = database.ex1;
-let currentMode = 'practice';
-let timeLeft = testDurationSeconds;
-let timerInterval;
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        
+        const database = {
+            ex1: {
+                text: "The quick brown fox jumps over the lazy dog",
+                audio: "https://soundhelix.com"
+            },
+            ex2: {
+                text: "Honorable members of the High Court the learned counsel presented the legal evidence format",
+                audio: "https://soundhelix.com"
+            },
+            ex3: {
+                text: "This is a daily progressive unseen exercise designed to challenge upcoming exam aspirants",
+                audio: "https://soundhelix.com"
+            }
+        };
+        
+        let testDurationSeconds = 300; 
+        let currentExercise = database.ex1;
+        let currentMode = 'practice';
+        let timeLeft = testDurationSeconds;
+        let timerInterval;
 
-const exerciseSelect = document.getElementById('exerciseSelect');
-const exerciseTextDiv = document.getElementById('exerciseText');
-const exerciseWrapper = document.getElementById('exerciseWrapper');
-const studentInput = document.getElementById('studentInput');
-const timerDisplay = document.getElementById('timer');
-const actionBtn = document.getElementById('actionBtn');
-const resultDiv = document.getElementById('result');
-const diffView = document.getElementById('diffView');
-const audioPlayer = document.getElementById('audioPlayer');
+        const exerciseSelect = document.getElementById('exerciseSelect');
+        const exerciseTextDiv = document.getElementById('exerciseText');
+        const exerciseWrapper = document.getElementById('exerciseWrapper');
+        const studentInput = document.getElementById('studentInput');
+        const timerDisplay = document.getElementById('timer');
+        const actionBtn = document.getElementById('actionBtn');
+        const resultDiv = document.getElementById('result');
+        const diffView = document.getElementById('diffView');
+        const audioPlayer = document.getElementById('audioPlayer');
 
-// Setup secure dynamic script click hooks
-exerciseSelect.addEventListener('change', changeExercise);
-actionBtn.addEventListener('click', handleSubmit);
-document.getElementById('btnPractice').addEventListener('click', () => switchMode('practice'));
-document.getElementById('btnTest').addEventListener('click', () => switchMode('test'));
+        exerciseSelect.addEventListener('change', changeExercise);
+        actionBtn.addEventListener('click', handleSubmit);
+        document.getElementById('btnPractice').addEventListener('click', function() { switchMode('practice'); });
+        document.getElementById('btnTest').addEventListener('click', function() { switchMode('test'); });
 
-function changeExercise() {
-    currentExercise = database[exerciseSelect.value];
-    exerciseTextDiv.innerText = currentExercise.text;
-    audioPlayer.src = currentExercise.audio;
-    resetPortal();
-}
-
-function switchMode(mode) {
-    currentMode = mode;
-    resetPortal();
-    document.getElementById('btnPractice').classList.remove('active');
-    document.getElementById('btnTest').classList.remove('active');
-    
-    if (mode === 'practice') {
-        document.getElementById('btnPractice').classList.add('active');
-        exerciseWrapper.style.display = 'block';
-        timerDisplay.style.display = 'none';
-        actionBtn.innerText = "Check Accuracy Analysis";
-        actionBtn.style.backgroundColor = "#28a745";
-        studentInput.disabled = false;
-        studentInput.placeholder = "Start typing here for practice...";
-    } else {
-        document.getElementById('btnTest').classList.add('active');
-        exerciseWrapper.style.display = 'none';
-        timerDisplay.style.display = 'block';
-        actionBtn.innerText = "Start Exam Test & Timer";
-        actionBtn.style.backgroundColor = "#0056b3";
-        studentInput.disabled = true;
-        studentInput.placeholder = "Click the blue button below to start your official test...";
-        updateTimerDisplay();
-    }
-}
-
-function updateTimerDisplay() {
-    let minutes = Math.floor(timeLeft / 60);
-    let seconds = timeLeft % 60;
-    timerDisplay.innerText = "⏱️ Time Remaining: " + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
-}
-
-function handleSubmit() {
-    if (currentMode === 'practice') {
-        calculateStenoResults();
-    } else {
-        if (actionBtn.innerText.includes("Start Exam Test")) {
-            actionBtn.innerText = "Submit Exam Paper";
-            actionBtn.style.backgroundColor = "#dc3545";
-            studentInput.disabled = false;
-            studentInput.focus();
-            
-            timerInterval = setInterval(() => {
-                timeLeft--;
-                updateTimerDisplay();
-                if (timeLeft <= 0) calculateStenoResults();
-            }, 1000);
-        } else {
-            calculateStenoResults();
+        function changeExercise() {
+            currentExercise = database[exerciseSelect.value];
+            exerciseTextDiv.innerText = currentExercise.text;
+            audioPlayer.src = currentExercise.audio;
+            resetPortal();
         }
-    }
-}
 
-function calculateStenoResults() {
-    clearInterval(timerInterval);
-    
-    const masterClean = currentExercise.text.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    const typedClean = studentInput.value.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    
-    let fullErrors = 0;
-    let halfErrors = 0;
-    let htmlAnalysis = "";
-
-    const loopLength = masterClean.length > typedClean.length ? masterClean.length : typedClean.length;
-    
-    for (let i = 0; i < loopLength; i++) {
-        let masterW = masterClean[i] || "";
-        let typedW = typedClean[i] || "";
-
-        if (masterW === typedW && masterW !== "") {
-            htmlAnalysis += '<span class="correct-word">' + typedW + '</span> ';
-        } else {
-            if (typedW !== "" && masterW !== "") {
-                fullErrors++;
-                htmlAnalysis += '<span class="error-word">' + typedW + '</span>(<span class="correct-word">' + masterW + '</span>) ';
-            } else if (typedW !== "" && masterW === "") {
-                fullErrors++;
-                htmlAnalysis += '<span class="error-word">' + typedW + '</span> ';
-            } else if (typedW === "" && masterW !== "") {
-                fullErrors++;
-                htmlAnalysis += '<span class="missing-word">[Omission: ' + masterW + ']</span> ';
+        function switchMode(mode) {
+            currentMode = mode;
+            resetPortal();
+            document.getElementById('btnPractice').classList.remove('active');
+            document.getElementById('btnTest').classList.remove('active');
+            
+            if (mode === 'practice') {
+                document.getElementById('btnPractice').classList.add('active');
+                exerciseWrapper.style.display = 'block';
+                timerDisplay.style.display = 'none';
+                actionBtn.innerText = "Check Accuracy Analysis";
+                actionBtn.style.backgroundColor = "var(--success)";
+                studentInput.disabled = false;
+                studentInput.placeholder = "Start typing here for practice...";
+            } else {
+                document.getElementById('btnTest').classList.add('active');
+                exerciseWrapper.style.display = 'none';
+                timerDisplay.style.display = 'block';
+                actionBtn.innerText = "Start Exam Test & Timer";
+                actionBtn.style.backgroundColor = "var(--primary)";
+                studentInput.disabled = true;
+                studentInput.placeholder = "Click the blue button below to start your official test...";
+                updateTimerDisplay();
             }
         }
-    }
 
-    let totalMistakes = fullErrors + halfErrors;
-    let accuracyPercentage = 0;
-    if (masterClean.length > 0) {
-        accuracyPercentage = ((masterClean.length - totalMistakes) / masterClean.length) * 100;
-    }
-    if (accuracyPercentage < 0) accuracyPercentage = 0;
+        function updateTimerDisplay() {
+            let minutes = Math.floor(timeLeft / 60);
+            let seconds = timeLeft % 60;
+            timerDisplay.innerText = "⏱️ Time Remaining: " + minutes.toString().padStart(2, '0') + ":" + seconds.toString().padStart(2, '0');
+        }
 
-    document.getElementById('masterCount').textContent = masterClean.length;
-    document.getElementById('typedCount').textContent = typedClean.length;
-    document.getElementById('fullErrors').textContent = fullErrors;
-    document.getElementById('halfErrors').textContent = halfErrors;
-    document.getElementById('accuracy').textContent = accuracyPercentage.toFixed(2) + "%";
-    diffView.innerHTML = htmlAnalysis;
-    
-    resultDiv.style.display = "block";
-    studentInput.disabled = true;
-    actionBtn.disabled = true;
-}
-
-function resetPortal() {
-    clearInterval(timerInterval);
-    timeLeft = testDurationSeconds;
-    studentInput.value = "";
-    studentInput.disabled = (currentMode === 'test');
-    actionBtn.disabled = false;
-    resultDiv.style.display = "none";
-    diffView.innerHTML = "";
-    if (currentMode === 'test') {
-        actionBtn.innerText = "Start Exam Test & Timer";
-        actionBtn.style.backgroundColor = "#0056b3";
-        updateTimerDisplay();
-    } else {
-        actionBtn.innerText = "Check Accuracy Analysis";
-        actionBtn.style.backgroundColor = "#28a745";
-    }
-}
-
-// Global start settings initialization
-exerciseTextDiv.innerText = currentExercise.text;
-audioPlayer.src = currentExercise.audio;
-switchMode('practice');
+        function handleSubmit() {
+            if (currentMode === 'practice') {
+                calculateStenoResults();
+            } else {
+                if (actionBtn.innerText.includes("Start Exam Test")) {
+                    actionBtn.innerText = "Submit Exam Paper";
+                    actionBtn.style.backgroundColor = "var(--danger)";
+                    studentInput.disabled = false;
+                    studentInput.focus();
+                    
+                    timerInterval = setInterval(() => {
+                        timeLeft--;
+                        updateTimerDisplay();
